@@ -3,83 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urgent Update! ✨</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <title>My Website</title>
     <style>
         body {
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: #fff0f3;
-            font-family: 'Fredoka One', cursive;
-            overflow: hidden;
-            transition: background 1s ease;
+            font-family: Arial, sans-serif;
+            background-color: #ffe5ec; /* Example: light pink background */
+            text-align: center;
+            padding: 50px;
         }
-
-        .card {
-            background: white;
-            padding: 3rem;
-            border-radius: 40px;
-            box-shadow: 0 15px 35px rgba(255, 182, 193, 0.4);
-            border: 6px solid #ffb3c1;
-            max-width: 400px;
-            z-index: 10;
-        }
-
-        h1 { color: #ff4d6d; font-size: 2rem; margin-bottom: 20px; }
-        
-        .gif-container img { width: 180px; border-radius: 20px; margin-bottom: 20px; }
-
-        .btn-group { position: relative; height: 120px; display: flex; align-items: center; justify-content: center; gap: 20px; }
-
-        button {
-            padding: 15px 35px;
-            border-radius: 50px;
+        h1 { color: #d81b60; }
+        .button {
+            padding: 10px 20px;
+            background-color: #ff4d6d;
+            color: white;
             border: none;
-            font-family: 'Fredoka One', cursive;
+            border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
         }
-
-        #yes { background: #ff4d6d; color: white; font-size: 1.5rem; }
-        #no { background: #ffb3c1; color: white; position: absolute; }
     </style>
 </head>
 <body>
-
-    <div id="content" class="card">
-        <div class="gif-container">
-            <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp4ZzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRndyZlc9Zw/MDJ9IbxxvDUQM/giphy.gif">
-        </div>
-        <h1 id="header">Will you be my Valentine? ❤️</h1>
-        <div class="btn-group">
-            <button id="yes" onclick="accepted()">YES!</button>
-            <button id="no" onmouseover="dodge()">No</button>
-        </div>
-    </div>
-
-    <script>
-        function dodge() {
-            const noBtn = document.getElementById('no');
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-        }
-
-        function accepted() {
-            // Explode confetti!
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ffb3c1', '#ffffff'] });
-            
-            // Change text and image
-            document.getElementById('header').innerText = "YAY! Te amo mucho! ❤️";
-            document.getElementById('main-gif').src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3B4ZzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRndyZlc9Zw/lNyvX5HnS7U696v2M3/giphy.gif";
-            document.getElementById('no').style.display = 'none';
-            document.body.style.background = "#ffb3c1";
-        }
-    </script>
+    <h1>Welcome to My Site</h1>
+    <p>This is a placeholder for your content.</p>
+    <button class="button" onclick="alert('Hello!')">Click Me</button>
 </body>
 </html>
