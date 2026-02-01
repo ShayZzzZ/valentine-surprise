@@ -6,7 +6,6 @@
     <title>For Santiago ❤️</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -18,45 +17,74 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #ffe5ec; /* Soft pink background */
+            background-color: #ffe5ec; 
             font-family: 'Fredoka One', cursive;
-            overflow: hidden; /* Stops scrollbars from appearing when button moves */
+            overflow: hidden; 
         }
 
-        /* The container for the content */
+        /* --- CORNER IMAGES --- */
+        .corner-img {
+            position: fixed;
+            width: 150px; /* Size of corner images */
+            z-index: 0; /* Behind other content if they overlap */
+        }
+
+        #top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        #top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        /* Mobile adjustment for corner images so they don't cover text */
+        @media (max-width: 600px) {
+            .corner-img {
+                width: 80px;
+                top: 10px;
+            }
+        }
+
+        /* --- MAIN CONTENT --- */
         .container {
             text-align: center;
             z-index: 1;
+            width: 100%;
+            max-width: 600px;
         }
 
-        /* The text style */
         h1 {
-            color: #d81b60; /* Darker pink for readability */
+            color: #d81b60; 
             font-size: 2.5rem;
             margin-top: 20px;
             margin-bottom: 30px;
             text-shadow: 2px 2px #fff;
+            padding: 0 20px;
         }
 
-        /* The initial Hello Kitty GIF */
+        /* CENTER IMAGE (Hello Kitty Couple) */
         #main-image {
-            width: 280px; 
+            max-width: 300px; 
+            max-height: 300px;
+            width: auto;
             height: auto;
-            border-radius: 20px;
             display: block;
-            margin: 0 auto; /* Centers the image */
+            margin: 0 auto; 
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+            border-radius: 20px;
         }
 
-        /* Container for the buttons */
         .btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px; /* Space between buttons */
+            gap: 20px; 
             position: relative;
+            margin-top: 10px;
         }
 
-        /* Button styling */
         button {
             padding: 15px 40px;
             font-size: 22px;
@@ -67,31 +95,33 @@
             transition: transform 0.2s ease;
         }
 
-        /* Yes Button */
         #yesBtn {
-            background-color: #4CAF50; /* Green for Go! */
+            background-color: #4CAF50; 
             color: white;
             box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            z-index: 100; 
         }
 
         #yesBtn:hover {
             transform: scale(1.1);
         }
 
-        /* No Button */
         #noBtn {
-            background-color: #f06292; /* Pink */
+            background-color: #f06292; 
             color: white;
-            position: fixed; /* Allows it to jump ANYWHERE on screen */
-            transition: top 0.2s ease, left 0.2s ease; /* Smooth jump */
+            position: fixed; 
+            transition: top 0.2s ease, left 0.2s ease;
         }
 
     </style>
 </head>
 <body>
 
+    <img id="top-left" class="corner-img" src="hellokitty2.gif" alt="Decoration">
+    <img id="top-right" class="corner-img" src="valentines%20chocolate.gif" alt="Decoration">
+
     <div class="container" id="content">
-        <img id="main-image" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp4ZzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRndyZlc9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Hello Kitty">
+        <img id="main-image" src="hellokitty.gif" alt="Us">
         
         <h1>Santiago, will you be my Valentine? ❤️</h1>
         
@@ -102,24 +132,18 @@
     </div>
 
     <script>
-        // Make sure the No button starts near the Yes button
+        // Place No button next to Yes button on load
         window.onload = function() {
             const yesBtn = document.getElementById('yesBtn');
             const noBtn = document.getElementById('noBtn');
-            
-            // Get Yes button position
             const rect = yesBtn.getBoundingClientRect();
             
-            // Place No button to the right of Yes button initially
             noBtn.style.left = (rect.right + 20) + 'px';
             noBtn.style.top = rect.top + 'px';
         };
 
         function dodge() {
             const noBtn = document.getElementById('noBtn');
-            
-            // Calculate random position within the window
-            // We subtract the button size so it doesn't go off the edge
             const maxWidth = window.innerWidth - noBtn.offsetWidth - 20; 
             const maxHeight = window.innerHeight - noBtn.offsetHeight - 20;
 
@@ -133,36 +157,25 @@
         function acceptLove() {
             const content = document.getElementById('content');
             
-            // 1. Launch Confetti!
             confetti({
                 particleCount: 200,
                 spread: 100,
                 origin: { y: 0.6 }
             });
 
-            // 2. Change the content
+            // Replaces content with Santiago's photo and message
             content.innerHTML = `
-                <img src="santiago.jpg" style="width: 300px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                <img src="santiago.jpg" style="max-width: 300px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
                 <h1 style="color: #d81b60; font-size: 2.2rem;">Te amo más que a nada en este mundo ❤️</h1>
             `;
             
-            // 3. Optional: Continuous fireworks for a few seconds
+            // Continuous fireworks
             var duration = 3 * 1000;
             var end = Date.now() + duration;
 
             (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 }
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 }
-                });
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
 
                 if (Date.now() < end) {
                     requestAnimationFrame(frame);
