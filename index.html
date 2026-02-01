@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Santiago ❤️</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -15,140 +18,156 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #ffe5ec; 
+            background-color: #ffe5ec; /* Soft pink background */
             font-family: 'Fredoka One', cursive;
-            overflow: hidden; /* Important: keeps the 'No' button from causing scrollbars */
+            overflow: hidden; /* Stops scrollbars from appearing when button moves */
         }
 
+        /* The container for the content */
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 40px;
-            border-radius: 50px;
-            border: 8px solid #ffb3c1;
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
-            max-width: 90%;
+            z-index: 1;
         }
 
+        /* The text style */
         h1 {
-            color: #ff4d6d;
+            color: #d81b60; /* Darker pink for readability */
             font-size: 2.5rem;
-            margin-bottom: 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
             text-shadow: 2px 2px #fff;
         }
 
+        /* The initial Hello Kitty GIF */
         #main-image {
-            width: 350px; /* Large HD size */
+            width: 280px; 
             height: auto;
             border-radius: 20px;
-            margin-bottom: 20px;
+            display: block;
+            margin: 0 auto; /* Centers the image */
         }
 
-        .btn-wrapper {
+        /* Container for the buttons */
+        .btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 40px;
-            margin-top: 20px;
+            gap: 20px; /* Space between buttons */
+            position: relative;
         }
 
-        #yesBtn {
+        /* Button styling */
+        button {
             padding: 15px 40px;
-            font-size: 28px;
-            background-color: #ff4d6d;
-            color: white;
+            font-size: 22px;
             border: none;
-            border-radius: 25px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-            transition: 0.3s;
+            font-family: 'Fredoka One', cursive;
+            transition: transform 0.2s ease;
+        }
+
+        /* Yes Button */
+        #yesBtn {
+            background-color: #4CAF50; /* Green for Go! */
+            color: white;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
         }
 
         #yesBtn:hover {
             transform: scale(1.1);
-            background-color: #ff758f;
         }
 
+        /* No Button */
         #noBtn {
-            padding: 10px 25px;
-            font-size: 18px;
-            background-color: #fb6f92;
+            background-color: #f06292; /* Pink */
             color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            position: fixed; /* Ensures it can move anywhere over everything else */
-            transition: 0.1s linear; /* Fast snap movement */
+            position: fixed; /* Allows it to jump ANYWHERE on screen */
+            transition: top 0.2s ease, left 0.2s ease; /* Smooth jump */
         }
+
     </style>
 </head>
 <body>
 
-    <div class="card" id="mainCard">
-        <div class="gif-container">
-            <img id="main-image" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp4ZzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRndyZlc9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Hello Kitty">
-        </div>
+    <div class="container" id="content">
+        <img id="main-image" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp4ZzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRndyZlc9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Cute Hello Kitty">
+        
         <h1>Santiago, will you be my Valentine? ❤️</h1>
         
-        <div class="btn-wrapper">
-            <button id="yesBtn" onclick="celebrate()">YES!</button>
-            <button id="noBtn" onmouseover="moveButton()">No</button>
+        <div class="btn-container">
+            <button id="yesBtn" onclick="acceptLove()">YES!</button>
+            <button id="noBtn" onmouseover="dodge()">No</button>
         </div>
     </div>
 
     <script>
-        // Set initial position of NO button
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        
-        // Place NO button near the YES button initially
-        window.onload = () => {
+        // Make sure the No button starts near the Yes button
+        window.onload = function() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            
+            // Get Yes button position
             const rect = yesBtn.getBoundingClientRect();
-            noBtn.style.left = (rect.right + 40) + 'px';
+            
+            // Place No button to the right of Yes button initially
+            noBtn.style.left = (rect.right + 20) + 'px';
             noBtn.style.top = rect.top + 'px';
         };
 
-        function moveButton() {
-            // Screen boundaries
-            const maxWidth = window.innerWidth - noBtn.offsetWidth;
-            const maxHeight = window.innerHeight - noBtn.offsetHeight;
+        function dodge() {
+            const noBtn = document.getElementById('noBtn');
             
-            // Random coordinates
-            const randomX = Math.floor(Math.random() * maxWidth);
-            const randomY = Math.floor(Math.random() * maxHeight);
-            
+            // Calculate random position within the window
+            // We subtract the button size so it doesn't go off the edge
+            const maxWidth = window.innerWidth - noBtn.offsetWidth - 20; 
+            const maxHeight = window.innerHeight - noBtn.offsetHeight - 20;
+
+            const randomX = Math.random() * maxWidth;
+            const randomY = Math.random() * maxHeight;
+
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
         }
 
-        function celebrate() {
-            const card = document.getElementById('mainCard');
-            // Change image to a celebration Hello Kitty
-            card.innerHTML = `
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3B4ZzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRnd3BxdzRndyZlc9Zw/lNyvX5HnS7U696v2M3/giphy.gif" style="width:350px; border-radius: 20px;">
-                <h1 style="color: #ff4d6d;">I knew you'd say yes! ❤️ See you soon!</h1>
+        function acceptLove() {
+            const content = document.getElementById('content');
+            
+            // 1. Launch Confetti!
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 }
+            });
+
+            // 2. Change the content
+            content.innerHTML = `
+                <img src="santiago.jpg" style="width: 300px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                <h1 style="color: #d81b60; font-size: 2.2rem;">Te amo más que a nada en este mundo ❤️</h1>
             `;
             
-            // Continuous confetti effect
-            var duration = 5 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            // 3. Optional: Continuous fireworks for a few seconds
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
 
-            function randomInRange(min, max) {
-              return Math.random() * (max - min) + min;
-            }
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
 
-            var interval = setInterval(function() {
-              var timeLeft = animationEnd - Date.now();
-
-              if (timeLeft <= 0) {
-                return clearInterval(interval);
-              }
-
-              var particleCount = 50 * (timeLeft / duration);
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
         }
     </script>
 </body>
